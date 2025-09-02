@@ -1,6 +1,4 @@
-// carrito.js - Funcionalidad del carrito
 const carrito = {
-    // Agregar producto al carrito
     agregarAlCarrito: function (id) {
         const producto = productosData.obtenerPorId(id);
 
@@ -21,114 +19,118 @@ const carrito = {
         storage.guardarCarrito(carrito);
         actualizarContadorCarrito();
 
-        // Mostrar mensaje de confirmación
         alert(`¡${producto.nombre} agregado al carrito!`);
     },
 
-    // Eliminar producto del carrito
     eliminarDelCarrito: function (id) {
-        let carrito = storage.obtenerCarrito();
-        carrito = carrito.filter(item => item.id !== id);
-        storage.guardarCarrito(carrito);
+        let carritoActual = storage.obtenerCarrito();
+        carritoActual = carritoActual.filter(item => item.id !== id);
+        storage.guardarCarrito(carritoActual);
         this.actualizarVistaCarrito();
         actualizarContadorCarrito();
     },
 
-    // Actualizar cantidad de producto en el carrito
     actualizarCantidad: function (id, nuevaCantidad) {
         if (nuevaCantidad < 1) return;
 
-        let carrito = storage.obtenerCarrito();
-        const producto = carrito.find(item => item.id === id);
+        let carritoActual = storage.obtenerCarrito();
+        const producto = carritoActual.find(item => item.id === id);
 
         if (producto) {
             producto.cantidad = nuevaCantidad;
-            storage.guardarCarrito(carrito);
+            storage.guardarCarrito(carritoActual);
             this.actualizarVistaCarrito();
             actualizarContadorCarrito();
         }
     },
 
-    // Actualizar la vista del carrito
     actualizarVistaCarrito: function () {
         const carritoItems = document.getElementById('carrito-items');
         const totalPrecio = document.getElementById('total-precio');
+        let total = 0;
 
-        if (carritoItems && totalPrecio) {
-            const carrito = storage.obtenerCarrito();
-            let total = 0;
+        // Limpiar el contenido actual del carrito
+        carritoItems.innerHTML = '';
 
-            carritoItems.innerHTML = '';
+        const carritoActual = storage.obtenerCarrito();
 
-            carrito.forEach(item => {
-                const itemTotal = item.precio * item.cantidad;
-                total += itemTotal;
-
-                const itemElement = document.createElement('div');
-                itemElement.classList.add('carrito-item');
-                itemElement.innerHTML = `
-                    <div class="carrito-item-info">
-                        <h4>${item.nombre}</h4>
-                        <p>$${item.precio.toLocaleString('es-CL')} c/u</p>
-                    </div>
-                    <div class="carrito-item-cantidad">
-                        <button class="disminuir" data-id="${item.id}">-</button>
-                        <span>${item.cantidad}</span>
-                        <button class="aumentar" data-id="${item.id}">+</button>
-                        <button class="eliminar" data-id="${item.id}">🗑️</button>
-                    </div>
-                `;
-                carritoItems.appendChild(itemElement);
-            });
-
-            totalPrecio.textContent = total.toLocaleString('es-CL');
-
-            // Agregar event listeners a los botones
-            this.agregarEventListenersCarrito();
+        if (carritoActual.length === 0) {
+            carritoItems.innerHTML = '<p class="text-center">Tu carrito está vacío.</p>';
+            if (totalPrecio) {
+                totalPrecio.textContent = `$${total.toLocaleString('es-CL')}`;
+            }
+            return;
         }
+
+        carritoActual.forEach(item => {
+            total += item.precio * item.cantidad;
+            const divItem = document.createElement('div');
+            divItem.classList.add('carrito-item');
+            divItem.innerHTML = `
+                <div class="carrito-item-info">
+                    <h4>${item.nombre}</h4>
+                    <p>Precio: $${item.precio.toLocaleString('es-CL')}</p>
+                </div>
+                <div class="carrito-item-cantidad">
+                    <button class="btn-cantidad disminuir" data-id="${item.id}">-</button>
+                    <span>${item.cantidad}</span>
+                    <button class="btn-cantidad aumentar" data-id="${item.id}">+</button>
+                </div>
+                <button class="carrito-item-eliminar" data-id="${item.id}">Eliminar</button>
+            `;
+            carritoItems.appendChild(divItem);
+        });
+
+        if (totalPrecio) {
+            totalPrecio.textContent = `$${total.toLocaleString('es-CL')}`;
+        }
+        
+        // Se agregan los event listeners después de crear los botones
+        this.agregarEventListenersCarrito();
     },
 
-    // Agregar event listeners a los botones del carrito
     agregarEventListenersCarrito: function () {
         const botonesAumentar = document.querySelectorAll('.aumentar');
         const botonesDisminuir = document.querySelectorAll('.disminuir');
-        const botonesEliminar = document.querySelectorAll('.eliminar');
+        const botonesEliminar = document.querySelectorAll('.carrito-item-eliminar');
 
         botonesAumentar.forEach(boton => {
-            boton.addEventListener('click', function () {
-                const id = parseInt(this.getAttribute('data-id'));
-                const carrito = storage.obtenerCarrito();
-                const producto = carrito.find(item => item.id === id);
+            boton.addEventListener('click', (e) => {
+                const id = parseInt(e.target.getAttribute('data-id'));
+                const carritoActual = storage.obtenerCarrito();
+                const producto = carritoActual.find(item => item.id === id);
                 if (producto) {
-                    carrito.actualizarCantidad(id, producto.cantidad + 1);
+                    // Llamada correcta a la función del objeto 'carrito'
+                    this.actualizarCantidad(id, producto.cantidad + 1);
                 }
             });
         });
 
         botonesDisminuir.forEach(boton => {
-            boton.addEventListener('click', function () {
-                const id = parseInt(this.getAttribute('data-id'));
-                const carrito = storage.obtenerCarrito();
-                const producto = carrito.find(item => item.id === id);
+            boton.addEventListener('click', (e) => {
+                const id = parseInt(e.target.getAttribute('data-id'));
+                const carritoActual = storage.obtenerCarrito();
+                const producto = carritoActual.find(item => item.id === id);
                 if (producto && producto.cantidad > 1) {
-                    carrito.actualizarCantidad(id, producto.cantidad - 1);
+                    // Llamada correcta a la función del objeto 'carrito'
+                    this.actualizarCantidad(id, producto.cantidad - 1);
                 }
             });
         });
 
         botonesEliminar.forEach(boton => {
-            boton.addEventListener('click', function () {
-                const id = parseInt(this.getAttribute('data-id'));
-                carrito.eliminarDelCarrito(id);
+            boton.addEventListener('click', (e) => {
+                const id = parseInt(e.target.getAttribute('data-id'));
+                // Llamada correcta a la función del objeto 'carrito'
+                this.eliminarDelCarrito(id);
             });
         });
     },
 
-    // Finalizar compra
     finalizarCompra: function () {
-        const carrito = storage.obtenerCarrito();
+        const carritoActual = storage.obtenerCarrito();
 
-        if (carrito.length === 0) {
+        if (carritoActual.length === 0) {
             alert('El carrito está vacío. Agrega productos antes de finalizar la compra.');
             return;
         }

@@ -1,13 +1,11 @@
-// productos.js - Gestión de productos
 const productosData = {
-    // Obtener todos los productos
     obtenerTodos: function () {
         return [
-            // Tortas cuadradas s
+            // Tortas cuadradas 
             {
                 id: 1,
                 codigo: "TC001",
-                nombre: "Torta Cuadrada de Chocolate",
+                nombre: "Torta de Chocolate",
                 descripcion: "Deliciosa torta de chocolate con capas de ganache y un toque de avellanas. Personalizable con mensajes especiales.",
                 precio: 45000,
                 tipo: "cuadrada",
@@ -18,7 +16,7 @@ const productosData = {
             {
                 id: 2,
                 codigo: "TC002",
-                nombre: "Torta Cuadrada de Frutas",
+                nombre: "Torta de Frutas",
                 descripcion: "Una mezcla de frutas frescas y crema chantilly sobre un suave bizcocho de vainilla, ideal para celebraciones.",
                 precio: 50000,
                 tipo: "cuadrada",
@@ -30,7 +28,7 @@ const productosData = {
             {
                 id: 3,
                 codigo: "TT001",
-                nombre: "Torta Circular de Vainilla",
+                nombre: "Torta de Vainilla",
                 descripcion: "Bizcocho de vainilla clásico relleno con crema pastelera y cubierto con un glaseado dulce, perfecto para cualquier ocasión.",
                 precio: 40000,
                 tipo: "circular",
@@ -41,7 +39,7 @@ const productosData = {
             {
                 id: 4,
                 codigo: "TT002",
-                nombre: "Torta Circular de Manjar",
+                nombre: "Torta de Manjar",
                 descripcion: "Torta tradicional chilena con manjar y nueces, un deleite para los amantes de los sabores dulces y clásicos.",
                 precio: 42000,
                 tipo: "circular",
@@ -49,38 +47,33 @@ const productosData = {
                 imagen: "https://placehold.co/300x200/f8bbd0/333?text=Torta+Manjar+Circular",
                 categoria: "TT"
             },
-            // ... (otros productos)
         ];
     },
 
-    // Obtener productos destacados
     obtenerProductosDestacados: function () {
         const todos = this.obtenerTodos();
-        return [todos[0], todos[2], todos[4]]; // Productos seleccionados como destacados
+        return [todos[0], todos[2], todos[4]];
     },
 
-    // Obtener producto por ID
     obtenerPorId: function (id) {
         return this.obtenerTodos().find(producto => producto.id === id);
     },
 
-    // Obtener productos por categoría
     obtenerPorCategoria: function (categoria) {
         if (categoria === 'todos') return this.obtenerTodos();
         return this.obtenerTodos().filter(producto => producto.categoria === categoria);
     },
 
-    // Obtener nombre de categoría por código
     obtenerNombreCategoria: function (codigo) {
         const categorias = {
-            'TC': ' ⠀⠀⠀⠀⠀⠀⠀⠀⠀',
-            'TT': '⠀⠀⠀⠀⠀⠀⠀⠀⠀',
-            'PI': '⠀⠀⠀⠀⠀⠀⠀⠀⠀',
-            'PSA': '⠀⠀⠀⠀⠀⠀⠀⠀⠀',
-            'PT': '⠀⠀⠀⠀⠀⠀⠀⠀⠀',
-            'PG': '⠀⠀⠀⠀⠀⠀⠀⠀⠀',
-            'PV': '⠀⠀⠀⠀⠀⠀⠀⠀⠀',
-            'TE': '⠀⠀⠀⠀⠀⠀⠀⠀⠀'
+            'TC': 'Torta Cuadrada',
+            'TT': 'Torta Circular',
+            'PI': 'Pie',
+            'PSA': 'Postre sin azúcar',
+            'PT': 'Pastel',
+            'PG': 'Pastel de Gala',
+            'PV': 'Pastel Vegano',
+            'TE': 'Torta Especial'
         };
         return categorias[codigo] || 'Sin categoría';
     }

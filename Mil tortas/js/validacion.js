@@ -1,12 +1,9 @@
-// validacion.js - Validación de formularios
 const validacion = {
-    // Validar formulario de registro
     validarFormularioRegistro: function (e) {
         e.preventDefault();
 
         let esValido = true;
 
-        // Validar nombre
         const nombre = document.getElementById('nombre');
         if (!nombre.value.trim()) {
             this.mostrarError('nombre', 'El nombre es obligatorio');
@@ -15,7 +12,6 @@ const validacion = {
             this.limpiarError('nombre');
         }
 
-        // Validar email
         const email = document.getElementById('email');
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email.value.trim()) {
@@ -28,7 +24,6 @@ const validacion = {
             this.limpiarError('email');
         }
 
-        // Validar fecha de nacimiento
         const fechaNacimiento = document.getElementById('fecha-nacimiento');
         if (!fechaNacimiento.value) {
             this.mostrarError('fecha', 'La fecha de nacimiento es obligatoria');
@@ -51,7 +46,6 @@ const validacion = {
             }
         }
 
-        // Validar contraseña
         const password = document.getElementById('password');
         if (!password.value) {
             this.mostrarError('password', 'La contraseña es obligatoria');
@@ -63,7 +57,6 @@ const validacion = {
             this.limpiarError('password');
         }
 
-        // Validar código promocional
         const codigoPromocional = document.getElementById('codigo-promocional');
         if (codigoPromocional.value && codigoPromocional.value !== 'FELICES50') {
             this.mostrarError('codigo', 'El código promocional no es válido');
@@ -76,12 +69,10 @@ const validacion = {
             alert('¡Registro exitoso! Ahora puedes disfrutar de nuestros beneficios.');
             e.target.reset();
 
-            // Aplicar descuentos según las condiciones
             this.aplicarDescuentos(email.value, new Date(fechaNacimiento.value), codigoPromocional.value);
         }
     },
 
-    // Aplicar descuentos según las condiciones
     aplicarDescuentos: function (email, fechaNacimiento, codigoPromocional) {
         const hoy = new Date();
         let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
@@ -91,23 +82,19 @@ const validacion = {
             edad--;
         }
 
-        // Descuento para mayores de 50 años
         if (edad >= 50) {
             alert('¡Felicidades! Obtienes un 50% de descuento en todos nuestros productos por ser mayor de 50 años.');
         }
 
-        // Descuento por código promocional
         if (codigoPromocional === 'FELICES50') {
             alert('¡Felicidades! Obtienes un 10% de descuento de por vida con el código FELICES50.');
         }
 
-        // Tortas gratis para estudiantes Duoc UC
         if (email.endsWith('@duocuc.cl')) {
             alert('¡Felicidades! Por ser estudiante de Duoc UC, recibirás una torta gratis en tu cumpleaños.');
         }
     },
 
-    // Validar campo individual
     validarCampo: function (e) {
         const campo = e.target;
         const nombre = campo.name;
@@ -157,7 +144,6 @@ const validacion = {
         }
     },
 
-    // Mostrar error en un campo
     mostrarError: function (campo, mensaje) {
         const errorElement = document.getElementById(`error-${campo}`);
         if (errorElement) {
@@ -165,7 +151,6 @@ const validacion = {
         }
     },
 
-    // Limpiar error de un campo
     limpiarError: function (campo) {
         const errorElement = document.getElementById(`error-${campo}`);
         if (errorElement) {
@@ -173,13 +158,11 @@ const validacion = {
         }
     },
 
-    // Inicializar validación de formularios
     inicializar: function () {
         const formularioRegistro = document.getElementById('formulario-registro');
         if (formularioRegistro) {
             formularioRegistro.addEventListener('submit', (e) => this.validarFormularioRegistro(e));
 
-            // Validación en tiempo real
             const inputs = formularioRegistro.querySelectorAll('input');
             inputs.forEach(input => {
                 input.addEventListener('blur', (e) => this.validarCampo(e));
