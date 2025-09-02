@@ -1,0 +1,99 @@
+/* base.css - Estilos base y comunes */
+:root {
+    --color-primary: #f8bbd0;
+    --color-secondary: #c48b9f;
+    --color-accent: #7e57c2;
+    --color-text: #333;
+    --color-light: #f9f9f9;
+    --color-dark: #5d4037;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Main content */
+main {
+    flex: 1;
+    padding: 30px 0;
+}
+
+/* Utilidades */
+.text-center {
+    text-align: center;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+/* Botones */
+.cta-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.cta-button:hover {
+    background-color: var(--color-dark);
+    transform: translateY(-3px);
+}
+
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.submit-button:hover {
+    background-color: var(--color-dark);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .hero {
+        padding: 60px 0;
+    }
+}
