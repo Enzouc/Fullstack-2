@@ -107,9 +107,9 @@ const validacion = {
             const nuevoUsuario = { nombre, email, fechaNacimiento, codigoPromocional };
 
             storage.guardarUsuario(nuevoUsuario);
-            alert('¡Registro exitoso! Serás dirigido a tu perfil.');
+            mostrarAlertaWeb('¡Registro exitoso! Serás dirigido a tu perfil.');
             this.aplicarDescuentos(email, new Date(fechaNacimiento), codigoPromocional);
-            
+
             e.target.reset();
             window.location.href = 'perfil.html';
         }
@@ -124,16 +124,22 @@ const validacion = {
             edad--;
         }
 
+        let mensajes = [];
+
         if (edad >= 50) {
-            alert('¡Felicidades! Obtienes un 50% de descuento en todos nuestros productos por ser mayor de 50 años.');
+            mensajes.push('¡Felicidades! Obtienes un 50% de descuento por ser mayor de 50 años.');
         }
 
         if (codigoPromocional === 'FELICES50') {
-            alert('¡Felicidades! Obtienes un 10% de descuento de por vida con el código FELICES50.');
+            mensajes.push('¡Felicidades! Obtienes un 10% de descuento de por vida con el código FELICES50.');
         }
 
         if (email.endsWith('@duocuc.cl')) {
-            alert('¡Felicidades! Por ser estudiante de Duoc UC, recibirás una torta gratis en tu cumpleaños.');
+            mensajes.push('¡Felicidades! Por ser de Duoc UC, recibirás una torta gratis en tu cumpleaños.');
+        }
+
+        if (mensajes.length > 0) {
+            mostrarAlertaWeb(mensajes.join('\n\n'));
         }
     },
 

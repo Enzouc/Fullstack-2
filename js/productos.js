@@ -203,15 +203,7 @@ const productos = {
             grid.appendChild(productoElement);
         });
 
-        const agregarBtns = document.querySelectorAll('.agregar-carrito-btn');
-        agregarBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const productoId = e.target.dataset.id;
-                const mensajeInput = document.getElementById(`mensaje-${productoId}`);
-                const mensaje = mensajeInput ? mensajeInput.value.trim() : '';
-                carrito.agregarAlCarrito(productoId, mensaje);
-            });
-        });
+        
     },
 
     filtrarProductos: function () {

@@ -159,3 +159,28 @@ function actualizarNavegacionUsuario() {
         }
     }
 }
+/**
+ * Muestra un modal de alerta web.
+ * @param {string} mensaje El texto a mostrar en el modal.
+ */
+function mostrarAlertaWeb(mensaje) {
+  const modal = document.getElementById('modal-alerta');
+  const mensajeEl = document.getElementById('modal-mensaje');
+  const cerrarBtn = document.getElementById('modal-cerrar');
+
+  if (!modal || !mensajeEl || !cerrarBtn) {
+    alert(mensaje);
+    return;
+  }
+
+  mensajeEl.innerHTML = mensaje;
+  
+  modal.classList.add('visible');
+
+  function cerrarModal() {
+    modal.classList.remove('visible');
+    cerrarBtn.removeEventListener('click', cerrarModal);
+  }
+
+  cerrarBtn.addEventListener('click', cerrarModal);
+}

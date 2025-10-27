@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         storage.guardarUsuario(usuarioActualizado);
 
-        alert('¡Perfil actualizado con éxito!');
+        mostrarAlertaWeb('¡Perfil actualizado con éxito!');
     });
 
     const btnCerrarSesion = document.getElementById('btn-cerrar-sesion');
     btnCerrarSesion.addEventListener('click', function () {
         storage.limpiarUsuario();
-        alert('Has cerrado sesión.');
+        mostrarAlertaWeb('Has cerrado sesión.');
         window.location.href = 'index.html';
     });
 });

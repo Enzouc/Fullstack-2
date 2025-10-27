@@ -23,7 +23,7 @@ const carrito = {
 
         storage.guardarCarrito(carritoActual);
         actualizarContadorCarrito();
-        alert(`¡${producto.nombre} fue agregado al carrito!`);
+        mostrarAlertaWeb(`¡${producto.nombre} fue agregado al carrito!`);
     },
 
     eliminarDelCarrito: function (id) {
@@ -91,32 +91,29 @@ const carrito = {
     },
 
     agregarEventListenersCarrito: function () {
-        document.querySelectorAll('.btn-cantidad.aumentar').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const id = e.target.dataset.id;
-                const item = storage.obtenerCarrito().find(p => p.id === id);
-                if (item) {
-                    this.actualizarCantidad(id, item.cantidad + 1);
+        const carritoItemsContainer = document.getElementById('carrito-items');
+        if (carritoItemsContainer) {
+            carritoItemsContainer.addEventListener('click', (e) => {
+                const target = e.target; 
+                const id = target.dataset.id; 
+
+                if (!id) return; 
+
+                if (target.classList.contains('aumentar')) {
+                    const item = storage.obtenerCarrito().find(p => p.id === id);
+                    if (item) {
+                        this.actualizarCantidad(id, item.cantidad + 1);
+                    }
+                } else if (target.classList.contains('disminuir')) {
+                    const item = storage.obtenerCarrito().find(p => p.id === id);
+                    if (item) {
+                        this.actualizarCantidad(id, item.cantidad - 1);
+                    }
+                } else if (target.classList.contains('carrito-item-eliminar')) {
+                    this.eliminarDelCarrito(id);
                 }
             });
-        });
-
-        document.querySelectorAll('.btn-cantidad.disminuir').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const id = e.target.dataset.id;
-                const item = storage.obtenerCarrito().find(p => p.id === id);
-                if (item) {
-                    this.actualizarCantidad(id, item.cantidad - 1);
-                }
-            });
-        });
-
-        document.querySelectorAll('.carrito-item-eliminar').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const id = e.target.dataset.id;
-                this.eliminarDelCarrito(id);
-            });
-        });
+        }
 
         const btnFinalizarCompra = document.getElementById('finalizar-compra-btn');
         if (btnFinalizarCompra) {
@@ -129,10 +126,10 @@ const carrito = {
     finalizarCompra: function () {
         const carritoActual = storage.obtenerCarrito();
         if (carritoActual.length === 0) {
-            alert('El carrito está vacío. Agrega productos antes de finalizar la compra.');
+            mostrarAlertaWeb('El carrito está vacío. Agrega productos antes de finalizar la compra.');
             return;
         }
-        alert('¡Compra realizada con éxito! Gracias por tu pedido.');
+        mostrarAlertaWeb('¡Compra realizada con éxito! Gracias por tu pedido.');
         storage.limpiarCarrito();
         this.actualizarVistaCarrito();
         actualizarContadorCarrito();
